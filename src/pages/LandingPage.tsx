@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -42,13 +43,17 @@ const LandingPage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 text-lg">
-                Start Dating Safely
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-gray-300">
-                Watch Demo
-              </Button>
+              <Link to="/dashboard">
+                <Button size="lg" className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 text-lg">
+                  Start Dating Safely
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link to="/features">
+                <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-gray-300">
+                  Watch Demo
+                </Button>
+              </Link>
             </div>
 
             {/* Trust Indicators */}
@@ -246,13 +251,17 @@ const LandingPage = () => {
             Join over 2 million verified singles who trust SafeDate for secure online dating.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-rose-600 hover:bg-gray-100 px-8 py-4 text-lg">
-              Create Free Account
-              <Heart className="w-5 h-5 ml-2" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-rose-600 px-8 py-4 text-lg">
-              Learn More
-            </Button>
+            <Link to="/dashboard">
+              <Button size="lg" className="bg-white text-rose-600 hover:bg-gray-100 px-8 py-4 text-lg">
+                Create Free Account
+                <Heart className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Link to="/features">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-rose-600 px-8 py-4 text-lg">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

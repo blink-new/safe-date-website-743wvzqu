@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { Shield, Menu, X } from 'lucide-react';
+import { Shield, Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated, login, logout } = useAuth();
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -14,6 +16,11 @@ const Navbar = () => {
     { name: 'Pricing', path: '/pricing' },
     { name: 'About', path: '/about' },
   ];
+
+  // Add dashboard to nav items if authenticated
+  const allNavItems = isAuthenticated 
+    ? [{ name: 'Dashboard', path: '/dashboard' }, ...navItems]
+    : navItems;
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -31,7 +38,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
+            {allNavItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
@@ -48,12 +55,31 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-700">
-              Sign In
-            </Button>
-            <Button className="bg-rose-600 hover:bg-rose-700 text-white">
-              Get Started
-            </Button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-700">
+                  <User className="w-4 h-4" />
+                  <span>{user?.displayName || user?.email}</span>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-700"
+                  onClick={logout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Button variant="ghost" className="text-gray-700" onClick={login}>
+                  Sign In
+                </Button>
+                <Button className="bg-rose-600 hover:bg-rose-700 text-white" onClick={login}>
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -72,7 +98,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-              {navItems.map((item) => (
+              {allNavItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
@@ -87,12 +113,31 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="px-3 py-2 space-y-2">
-                <Button variant="ghost" className="w-full justify-start text-gray-700">
-                  Sign In
-                </Button>
-                <Button className="w-full bg-rose-600 hover:bg-rose-700 text-white">
-                  Get Started
-                </Button>
+                {isAuthenticated ? (
+                  <>
+                    <div className="flex items-center space-x-2 text-sm text-gray-700 px-3 py-2">
+                      <User className="w-4 h-4" />
+                      <span>{user?.displayName || user?.email}</span>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start text-gray-700"
+                      onClick={logout}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost" className="w-full justify-start text-gray-700" onClick={login}>
+                      Sign In
+                    </Button>
+                    <Button className="w-full bg-rose-600 hover:bg-rose-700 text-white" onClick={login}>
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
